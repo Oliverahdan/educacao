@@ -45,7 +45,6 @@ const Pesquisa = ({ data, onSelect }) => {
   return (
     <div>
       <h1>Aplicação React</h1>
-      <p>Município Selecionado: {municipiosUnicos.join(', ')}</p>
       <select onChange={(e) => handleSelect(e.target.value)}>
         <option value="">Selecione um Município</option>
         {municipiosUnicos.map((municipio, index) => (

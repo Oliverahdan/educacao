@@ -10,10 +10,12 @@ const App = () => {
   useEffect(() => {
     // Carregar dados do arquivo JSON
     fetch('/dataset.json')
-      .then(response => response.json())
-      .then(jsonData => setData(jsonData))
-      .catch(error => console.error('Erro ao carregar dados:', error));
-
+    .then(response => response.json())
+    .then(jsonData => {
+      setData(jsonData);
+      console.log('Data:', jsonData); // Log the data for debugging
+    })
+    .catch(error => console.error('Erro ao carregar dados:', error));
     // Configurar um ouvinte de eventos para mudanças na URL
     const handleRouteChange = () => setCurrentRoute(window.location.pathname);
     window.addEventListener('popstate', handleRouteChange);
@@ -36,7 +38,7 @@ const App = () => {
 
   // Componentes correspondentes às rotas
   const routes = {
-    '/escola': <Escolas municipio={selectedMunicipio} />,
+    '/escola': <Escolas idEscola={selectedMunicipio} data={data} />, // Pass data prop
     '/pesquisa': <Pesquisa data={data} onSelect={handleSelect} />,
   };
 
