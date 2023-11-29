@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Escolas</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+<body  class="fundo">
+<div class="pesquisa">
+   
+<select id="escolaSelect" onchange="buscarInformacoes()" class="menususpenso">
+    <option value="" disabled selected>Selecione a escola:</option>
+    <!-- As opções da lista suspensa serão preenchidas dinamicamente com JavaScript -->
+</select>
+
+
+    <div id="informacoesEscola">
+        <!-- As informações da escola selecionada serão exibidas aqui -->
+    </div>
+</div>
+    <script> 
+   let dataset;
+let escolasMap = {};
+
+// Carrega o dataset.json e o escolas.json
+Promise.all([
+    fetch('dataset.json').then(response => response.json()),
+    fetch('escolas.json').then(response => response.json())
+])
+.then(([data, escolasData]) => {
+    dataset = data; // Atribui o dataset à variável global
+
+    // Mapeia os IDs de escola para seus respectivos nomes
+    escolasData.forEach(escola => {
+        escolasMap[escola.id] = escola.nome;
+    });
+
+    // Obtém todas as entradas do dataset
+    const escolasComNomes = data.filter(entry => entry.id_escola && escolasMap[entry.id_escola]);
+
+// Preenche a lista suspensa com os nomes de escola
+const escolaSelect = document.getElementById('escolaSelect');
+escolasComNomes.forEach(escola => {
+    const option = document.createElement('option');
+    option.value = escola.id_escola;
+    option.text = escolasMap[escola.id_escola];
+    escolaSelect.appendChild(option);
+});
+})
+.catch(error => console.error('Erro ao carregar os dados:', error));
+
+// Função chamada quando uma escola é selecionada na lista suspensa
+function buscarInformacoes() {
+    const escolaId = document.getElementById('escolaSelect').value;
+    const informacoesEscola = document.getElementById('informacoesEscola');
+
+    // Procura a escola no dataset com base no id selecionado
+    const escolaSelecionada = dataset.find(entry => entry.id_escola === escolaId);
+
+    // Obtém o nome da escola com base no ID
+    const nomeEscola = escolasMap[escolaId] || 'Nome não encontrado';
+
+    // Exibe as informações da escola
+    if (escolaSelecionada) {
+        informacoesEscola.innerHTML = `
+            <h2>Informações da Escola ${nomeEscola}</h2>
+            <p>Rede: ${escolaSelecionada.rede}</p>
+            <p>Ensino: ${escolaSelecionada.ensino}</p>
+            <p>Anos Escolares: ${escolaSelecionada.anos_escolares}</p>
+            <p>Taxa de Aprovação: ${escolaSelecionada.taxa_aprovacao}</p>
+            <p>Indicador de Rendimento: ${escolaSelecionada.indicador_rendimento}</p>
+            <p>Nota Saeb Matemática: ${escolaSelecionada.nota_saeb_matematica}</p>
+            <p>Nota Saeb Língua Portuguesa: ${escolaSelecionada.nota_saeb_lingua_portuguesa}</p>
+            <p>Nota Saeb Média Padronizada: ${escolaSelecionada.nota_saeb_media_padronizada}</p>
+            <p>Ideb: ${escolaSelecionada.ideb}</p>
+            <p>Projeção: ${escolaSelecionada.projecao}</p>
+        `;
+    } else {
+        informacoesEscola.innerHTML = '<p>Escola não encontrada.</p>';
+    }
+}
+
+    </script>
+</body>
+</html>
