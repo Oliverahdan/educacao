@@ -14,6 +14,10 @@
     <option value="" disabled selected>Selecione a escola:</option>
     <!-- As opções da lista suspensa serão preenchidas dinamicamente com JavaScript -->
 </select>
+<select id="anoSelect" onchange="buscarInformacoes()" class="menususpenso">
+    <option value="" disabled selected>Selecione a escola:</option>
+    <!-- As opções da lista suspensa serão preenchidas dinamicamente com JavaScript -->
+</select>
 
 
     <div id="informacoesEscola">
@@ -38,15 +42,21 @@ Promise.all([
     });
 
     // Obtém todas as entradas do dataset
-    const escolasComNomes = data.filter(entry => entry.id_escola && escolasMap[entry.id_escola]);
+    const nomesUnicos = new Set();
+const escolasComNomes = data.filter(entry => entry.id_escola && escolasMap[entry.id_escola]);
 
 // Preenche a lista suspensa com os nomes de escola
 const escolaSelect = document.getElementById('escolaSelect');
 escolasComNomes.forEach(escola => {
-    const option = document.createElement('option');
-    option.value = escola.id_escola;
-    option.text = escolasMap[escola.id_escola];
-    escolaSelect.appendChild(option);
+    const nomeEscola = escolasMap[escola.id_escola];
+    if (!nomesUnicos.has(nomeEscola)) {
+        nomesUnicos.add(nomeEscola);
+
+        const option = document.createElement('option');
+        option.value = escola.id_escola;
+        option.text = nomeEscola;
+        escolaSelect.appendChild(option);
+    }
 });
 })
 .catch(error => console.error('Erro ao carregar os dados:', error));
