@@ -5,7 +5,8 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 100vh; /* Define a altura como 100% da altura da viewport */
+    height: 100vh;
+    backdrop-filter: blur(4px);
 }
 .pesquisa{
     display: grid;
@@ -15,4 +16,41 @@
 }
 .menususpenso{
     height: 60px;
+}
+#anoSelect{
+    width: 80px;
+}
+#escolaSelect{
+    width: 800px;
+}
+
+.escola{
+    grid-row-start: 1;
+    grid-column-start: 2;
+    margin-top: 200px;
+    
+}
+.ano{
+    grid-row-start: 1;
+    grid-column-start: 1;
+    margin-left: 393px;
+    margin-top: 200px;
+}
+.lupa{
+    grid-row-start: 1;
+    grid-column-start: 3;
+    background-color: white;
+    height: 58px;
+    width: 59px;
+    margin-top: 201px;
+
+}
+.titulo{
+    grid-row-start: 1;
+    grid-column-start: 2;
+    font-size: 70px;
+}
+#informacoesEscola{
+    grid-row-start: 3;
+    grid-column-start: 2;
 }
