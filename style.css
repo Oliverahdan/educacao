@@ -45,6 +45,16 @@
     margin-top: 201px;
 
 }
+.filtro{
+    grid-row-start: 1;
+    grid-column-start: 3;
+    background-color: white;
+    height: 38px;
+    width: 40px;
+    margin-top: 201px;
+    margin-left: 60px;
+    padding: 10px;
+}
 .titulo{
     grid-row-start: 1;
     grid-column-start: 2;
