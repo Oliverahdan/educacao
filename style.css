@@ -54,6 +54,7 @@
     margin-top: 201px;
     margin-left: 60px;
     padding: 10px;
+    
 }
 .titulo{
     grid-row-start: 1;
@@ -63,4 +64,23 @@
 #informacoesEscola{
     grid-row-start: 3;
     grid-column-start: 2;
+}
+#filtro {
+    display: none;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px; /* Ajuste conforme necessário */
+}
+
+th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    background-color: antiquewhite;
+}
+
+th {
+    background-color: #f2f2f2;
 }

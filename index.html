@@ -28,9 +28,8 @@
         </div>
 
         <div class="filtro">
-            <img src="/img/filtro.png" alt="filtro" onclick="exibirMenuFiltro()" style="width: 40px; height: 40px; cursor: pointer;">
-            <select id="filtro" style="display: none;" onchange="aplicarFiltro()">
-                <option value="" disabled selected>Selecione um filtro:</option>
+            <img src="/img/filtro.png" alt="filtro" onclick="exibirMenuFiltro(event)" style="width: 40px; height: 40px; cursor: pointer;">
+            <select id="filtro" onchange="aplicarFiltro()">
                 <option value="taxa_aprovacao">Taxa de Aprovação</option>
                 <option value="indicador_rendimento">Indicador de Rendimento</option>
                 <option value="nota_saeb_matematica">Nota Saeb Matemática</option>
@@ -136,39 +135,109 @@
             // Exibe as informações da escola
             if (escolaSelecionadaInfo) {
                 informacoesEscola.innerHTML = `
-                    <h2>${nomeEscola}</h2>
-                    <p>Rede: ${escolaSelecionadaInfo.rede}</p>
-                    <p>${nivelDeEnsino}</p>
-                    <p>Taxa de Aprovação: ${escolaSelecionadaInfo.taxa_aprovacao}</p>
-                    <p>Indicador de Rendimento: ${escolaSelecionadaInfo.indicador_rendimento}</p>
-                    <p>Nota Saeb Matemática: ${escolaSelecionadaInfo.nota_saeb_matematica}</p>
-                    <p>Nota Saeb Língua Portuguesa: ${escolaSelecionadaInfo.nota_saeb_lingua_portuguesa}</p>
-                    <p>Nota Saeb Média Padronizada: ${escolaSelecionadaInfo.nota_saeb_media_padronizada}</p>
-                    <p>Ideb: ${escolaSelecionadaInfo.ideb}</p>
-                    <p>Projeção: ${escolaSelecionadaInfo.projecao}</p>
+                    <table>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Rede</th>
+                            <th>Nível</th>
+                            <th>Taxa de Aprovação</th>
+                            <th>Indicador de Rendimento</th>
+                            <th>Nota Saeb Matemática</th>
+                            <th>Nota Saeb Língua Portuguesa</th>
+                            <th>Nota Saeb Média Padronizada</th>
+                            <th>Índice de Desenvolvimento da Educação Básica</th>
+                            <th>Projeção</th>
+                        </tr>
+                        <tr>
+                            <td>${nomeEscola}</td>
+                            <td>${escolaSelecionadaInfo.rede}</td>
+                            <td>${nivelDeEnsino}</td>
+                            <td>${escolaSelecionadaInfo.taxa_aprovacao}</td>
+                            <td>${escolaSelecionadaInfo.indicador_rendimento}</td>
+                            <td>${escolaSelecionadaInfo.nota_saeb_matematica}</td>
+                            <td>${escolaSelecionadaInfo.nota_saeb_lingua_portuguesa}</td>
+                            <td>${escolaSelecionadaInfo.nota_saeb_media_padronizada}</td>
+                            <td>${escolaSelecionadaInfo.ideb}</td>
+                            <td>${escolaSelecionadaInfo.projecao}</td>
+                        </tr>
+                    </table>
                 `;
             } else {
                 informacoesEscola.innerHTML = '<p>Escola não encontrada para o ano selecionado.</p>';
             }
         }
 
-        // Função chamada quando a imagem do filtro é clicada para exibir o menu de filtro
-        function exibirMenuFiltro() {
-            const filtroSelect = document.getElementById('filtro');
-            filtroSelect.style.display = 'block';
+        function exibirMenuFiltro(event) {
+    event.stopPropagation(); // Impede a propagação do evento para o documento
+
+    const filtroSelect = document.getElementById('filtro');
+    const displayStatus = filtroSelect.style.display;
+
+    // Alterna entre exibir e ocultar o menu
+    filtroSelect.style.display = (displayStatus === 'block') ? 'none' : 'block';
+}
+
+
+function aplicarFiltro() {
+    const filtroSelect = document.getElementById('filtro');
+    const filtroSelecionado = filtroSelect.value;
+    const informacoesEscola = document.getElementById('informacoesEscola');
+
+    // Limpa as informações exibidas anteriormente
+    informacoesEscola.innerHTML = '';
+
+    // Obtém os anos únicos do dataset
+    const anosUnicos = Array.from(new Set(dataset.map(entry => entry.ano))).sort().reverse();
+
+    // Exibe as informações com base no filtro selecionado
+    informacoesEscola.innerHTML = '<table>';
+
+    const escolaSelecionadaInfo = dataset.filter(entry => entry.id_escola === escolaSelecionada);
+
+    anosUnicos.forEach(ano => {
+        const dadoAno = escolaSelecionadaInfo.find(entry => entry.ano === ano);
+        let valor = '';
+
+        switch (filtroSelecionado) {
+            case 'taxa_aprovacao':
+                valor = dadoAno ? (dadoAno.taxa_aprovacao || 'N/A') : 'N/A';
+                break;
+            case 'indicador_rendimento':
+                valor = dadoAno ? (dadoAno.indicador_rendimento || 'N/A') : 'N/A';
+                break;
+            case 'nota_saeb_matematica':
+                valor = dadoAno ? (dadoAno.nota_saeb_matematica || 'N/A') : 'N/A';
+                break;
+            case 'nota_saeb_lingua_portuguesa':
+                valor = dadoAno ? (dadoAno.nota_saeb_lingua_portuguesa || 'N/A') : 'N/A';
+                break;
+            case 'nota_saeb_media_padronizada':
+                valor = dadoAno ? (dadoAno.nota_saeb_media_padronizada || 'N/A') : 'N/A';
+                break;
+            case 'ideb':
+                valor = dadoAno ? (dadoAno.ideb || 'N/A') : 'N/A';
+                break;
+            case 'projecao':
+                valor = dadoAno ? (dadoAno.projecao || 'N/A') : 'N/A';
+                break;
+            default:
+                break;
         }
 
-        // Função chamada quando uma opção de filtro é selecionada
-        function aplicarFiltro() {
-            const filtroSelect = document.getElementById('filtro');
-            const filtroSelecionado = filtroSelect.value;
+        informacoesEscola.innerHTML += `
+        <table>
+                <th>${ano}</th>
+                <td>${valor}</td>
+            </table>
+        `;
+    });
 
-            // Realize as operações necessárias com base no filtro selecionado
-            // ...
+    informacoesEscola.innerHTML += '</table>';
 
-            // Oculte o menu de filtro após a seleção
-            filtroSelect.style.display = 'none';
-        }
-    </script>
+    // Fecha o menu de filtro após a seleção
+    filtroSelect.style.display = 'none';
+}
+
+</script>
 </body>
 </html>
