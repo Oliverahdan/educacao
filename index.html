@@ -226,9 +226,15 @@ function aplicarFiltro() {
 
         informacoesEscola.innerHTML += `
         <table>
-                <th>${ano}</th>
-                <td>${valor}</td>
-            </table>
+                        <tr>
+                            <th>Ano</th>
+                            <th>${filtroSelecionado}</th>
+                        </tr>
+                        <tr>
+                            <td>${ano}</td>
+                            <td>${valor}</td>
+                        </tr>
+                    </table>
         `;
     });
 

@@ -72,6 +72,8 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px; /* Ajuste conforme necessário */
+    grid-row-start: 1;
+    grid-column-start: 2;
 }
 
 th, td {
@@ -83,4 +85,51 @@ th, td {
 
 th {
     background-color: #f2f2f2;
+}
+
+@media screen and (max-width: 1200px) {
+    .pesquisa {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+    }
+
+    .escola, .ano, .lupa, .filtro, .titulo, #informacoesEscola, table {
+        grid-column: 1;
+        justify-self: center;
+        text-align: center;
+    }
+    .escola{
+        margin-right: 150px;
+    }
+    .ano{
+        margin-right: 45px;
+    }
+
+    .lupa {
+        margin-left: 530px;
+        margin-bottom: 10px;
+    }
+    .filtro {
+        margin-left: 600px;
+    }
+
+    #escolaSelect {
+        width: 100%;
+        max-width: 400px;
+        margin-top: 10px;
+    }
+
+    #anoSelect {
+        width: 100%;
+        max-width: 130px;
+        margin-top: 10px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #escolaSelect, #anoSelect {
+        width: 100%;
+        max-width: none; /* Remova a largura máxima para ocupar a largura total */
+        margin-top: 10px;
+    }
 }
