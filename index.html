@@ -224,15 +224,32 @@ function aplicarFiltro() {
                 break;
         }
 
+         // Adiciona condições para definir a cor de fundo
+         let corFundo = '';
+        if (filtroSelecionado === 'nota_saeb_lingua_portuguesa' || filtroSelecionado === 'nota_saeb_matematica') {
+            corFundo = (valor >= 300) ? 'green' : ((valor >= 275) ? 'yellow' : 'red');
+        } else if (filtroSelecionado === 'indicador_rendimento') {
+            corFundo = (valor >= 1.0) ? 'green' : 'red';
+        } else if (filtroSelecionado === 'taxa_aprovacao') {
+            corFundo = (valor >= 70) ? 'green' : 'red';
+        } else if (filtroSelecionado === 'nota_saeb_media_padronizada') {
+            corFundo = (valor >= 7) ? 'green' : 'red';
+        } else if (filtroSelecionado === 'ideb') {
+            corFundo = (valor >= 7) ? 'green' : 'red';
+        }else if (filtroSelecionado === 'projecao') {
+            corFundo = (valor >= 7) ? 'green' : 'red';
+        }
+
+
         informacoesEscola.innerHTML += `
         <table>
                         <tr>
                             <th>Ano</th>
-                            <th>${filtroSelecionado}</th>
+                            <th>Valor</th>
                         </tr>
                         <tr>
                             <td>${ano}</td>
-                            <td>${valor}</td>
+                            <td style="background-color: ${corFundo}">${valor}</td>
                         </tr>
                     </table>
         `;

@@ -55,15 +55,21 @@
     margin-left: 60px;
     padding: 10px;
     
+    
 }
 .titulo{
     grid-row-start: 1;
-    grid-column-start: 2;
+    grid-column-start: 1;
+    grid-column-end: 4;
     font-size: 70px;
+    background-color: antiquewhite;
+    height: 100px;
+    text-align: center;
 }
 #informacoesEscola{
-    grid-row-start: 3;
+    grid-row-start: 2;
     grid-column-start: 2;
+    overflow: auto;
 }
 #filtro {
     display: none;
